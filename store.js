@@ -21,21 +21,16 @@ export class Store {
             this.discountOffers[i].discountInPercent = this.discountOffers[i].discountInPercent - 1;
         }
       } else {
-        if (this.discountOffers[i].discountInPercent < 50) {
-          this.discountOffers[i].discountInPercent = this.discountOffers[i].discountInPercent + 1;
+          let toAdd = 1
           if (this.discountOffers[i].partnerName == "Vinted") {
             if (this.discountOffers[i].expiresIn < 11) {
-              if (this.discountOffers[i].discountInPercent < 50) {
-                this.discountOffers[i].discountInPercent = this.discountOffers[i].discountInPercent + 1;
-              }
+              toAdd++
             }
             if (this.discountOffers[i].expiresIn < 6) {
-              if (this.discountOffers[i].discountInPercent < 50) {
-                this.discountOffers[i].discountInPercent = this.discountOffers[i].discountInPercent + 1;
-              }
+              toAdd++
             }
           }
-        }
+          this.discountOffers[i].discountInPercent = Math.min(this.discountOffers[i].discountInPercent + toAdd, 50)
       }
       this.discountOffers[i].expiresIn = this.discountOffers[i].expiresIn - 1;
       if (this.discountOffers[i].expiresIn < 0) {
@@ -43,7 +38,6 @@ export class Store {
           if (this.discountOffers[i].partnerName != "Vinted") {
             if (this.discountOffers[i].discountInPercent > 0) {
                 this.discountOffers[i].discountInPercent = this.discountOffers[i].discountInPercent - 1;
-              
             }
           } else {
             this.discountOffers[i].discountInPercent =
