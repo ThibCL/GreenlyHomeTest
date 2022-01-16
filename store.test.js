@@ -128,7 +128,8 @@ describe("Store", () => {
   it("Naturalia, vinted percentage should not increase over 50",()=>{
     let store = new Store([
       new DiscountOffer("Naturalia", 20, 49), 
-      new DiscountOffer("Vinted", 20, 49), 
+      new DiscountOffer("Vinted", 10, 49), 
+      new DiscountOffer("Vinted", 5, 49), 
     ])
     for(let i=1; i<=5; i++){
       store.updateDiscounts()
