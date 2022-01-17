@@ -40,6 +40,18 @@ describe("Store", () => {
     }
   })
 
+  it("BlackMarket percentage should reduce by two before expiration date",()=>{
+    let store = new Store([
+      new DiscountOffer("BlackMarket", 5, 20), 
+    ])
+    for(let i=1; i<=5; i++){
+      store.updateDiscounts()
+      for(let offer of store.discountOffers){
+        expect(offer.discountInPercent).toEqual(20 - 2 * i)
+      }
+    }
+  })
+
   it("Velib percentage should reduce by two after expiration date",()=>{
     let store = new Store([
       new DiscountOffer("Velib", 0, 20), 
@@ -52,10 +64,24 @@ describe("Store", () => {
     }
   })
 
-  it("Velib percentage should not reduce under 0",()=>{
+  it("BlackMarket percentage should reduce by four after expiration date",()=>{
+    let store = new Store([
+      new DiscountOffer("BlackMarket", 0, 20), 
+    ])
+    for(let i=1; i<=5; i++){
+      store.updateDiscounts()
+      for(let offer of store.discountOffers){
+        expect(offer.discountInPercent).toEqual(20 - 4 * i)
+      }
+    }
+  })
+
+  it("Velib, BlackMarket percentage should not reduce under 0",()=>{
     let store = new Store([
       new DiscountOffer("Velib", 2, 5), 
       new DiscountOffer("Velib", 5, 2), 
+      new DiscountOffer("BlackMarket", 2, 5), 
+      new DiscountOffer("BlackMarket", 5, 2), 
     ])
     for(let i=1; i<=5; i++){
       store.updateDiscounts()

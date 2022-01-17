@@ -13,14 +13,15 @@ export class Store {
   updateDiscounts() {
     for (var i = 0; i < this.discountOffers.length; i++) {
       if (this.discountOffers[i].partnerName == "Ilek") continue
-      this.discountOffers[i].expiresIn--;
 
+      this.discountOffers[i].expiresIn--;
       if (
         this.discountOffers[i].partnerName != "Naturalia" &&
         this.discountOffers[i].partnerName != "Vinted" 
       ) {
           let toSub = -1
           if(this.discountOffers[i].expiresIn < 0) toSub-- 
+          if(this.discountOffers[i].partnerName == "BlackMarket") toSub *= 2
 
           this.discountOffers[i].discountInPercent = Math.max(this.discountOffers[i].discountInPercent + toSub, 0)
       } else {
