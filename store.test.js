@@ -54,6 +54,7 @@ describe("Store", () => {
 
   it("Velib percentage should not reduce under 0",()=>{
     let store = new Store([
+      new DiscountOffer("Velib", 2, 5), 
       new DiscountOffer("Velib", 5, 2), 
     ])
     for(let i=1; i<=5; i++){
@@ -103,7 +104,7 @@ describe("Store", () => {
 
   it("Vinted percentage should increase by 2 ten days before expiration date",()=>{
     let store = new Store([
-      new DiscountOffer("Vinted", 10, 20)
+      new DiscountOffer("Vinted", 11, 20)
     ])
     for(let i=1; i<=5; i++){
       store.updateDiscounts()

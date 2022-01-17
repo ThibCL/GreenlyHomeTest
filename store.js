@@ -13,12 +13,16 @@ export class Store {
   updateDiscounts() {
     for (var i = 0; i < this.discountOffers.length; i++) {
       if (this.discountOffers[i].partnerName == "Ilek") continue
+      this.discountOffers[i].expiresIn--;
+
       if (
         this.discountOffers[i].partnerName != "Naturalia" &&
-        this.discountOffers[i].partnerName != "Vinted" && 
-        this.discountOffers[i].discountInPercent > 0
+        this.discountOffers[i].partnerName != "Vinted" 
       ) {
-          this.discountOffers[i].discountInPercent--;
+          let toSub = -1
+          if(this.discountOffers[i].expiresIn < 0) toSub-- 
+
+          this.discountOffers[i].discountInPercent = Math.max(this.discountOffers[i].discountInPercent + toSub, 0)
       } else {
           let toAdd = 1
           if (this.discountOffers[i].partnerName == "Vinted") {
@@ -28,28 +32,15 @@ export class Store {
             if (this.discountOffers[i].expiresIn < 6) {
               toAdd++
             }
+            if (this.discountOffers[i].expiresIn < 0) {
+              toAdd = -this.discountOffers[i].discountInPercent
+            }
+          }else{
+            if(this.discountOffers[i].expiresIn < 0) toAdd++ 
           }
           this.discountOffers[i].discountInPercent = Math.min(this.discountOffers[i].discountInPercent + toAdd, 50)
       }
-      
-      this.discountOffers[i].expiresIn--;
-      if (this.discountOffers[i].expiresIn < 0) {
-        if (this.discountOffers[i].partnerName != "Naturalia") {
-          if (this.discountOffers[i].partnerName != "Vinted") {
-            if (this.discountOffers[i].discountInPercent > 0) {
-                this.discountOffers[i].discountInPercent--;
-            }
-          } else {
-            this.discountOffers[i].discountInPercent = 0
-          }
-        } else {
-          if (this.discountOffers[i].discountInPercent < 50) {
-            this.discountOffers[i].discountInPercent++;
-          }
-        }
-      }
     }
-
     return this.discountOffers;
   }
 }
